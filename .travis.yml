@@ -19,3 +19,15 @@ after_success:
   - docker push sashazahnitko/multi-client
   - docker push sashazahnitko/multi-nginx
   - docker push sashazahnitko/multi-server
+
+deploy:
+  provider: elasticbeanstalk
+  region: "ap-southeast-2"
+  app: "multi-docker"
+  env: "MultiDocker-env"
+  bucket_name: "elasticbeanstalk-ap-southeast-2-675952489560"
+  bucket_path: "docker-multi"
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
