@@ -56,10 +56,13 @@ app.post("/values", async (req, res) => {
 pgClient.on("error", () => console.log("Lost PG connection"));
 
 setTimeout(() => {
-  pgClient.connect((err) => {
+  pgClient.connect((err, client) => {
     if (err) {
       return console.log("Could not connect");
     }
+    client
+      .query(`CREATE TABLE IF NOT EXISTS values (number INT)`)
+      .catch((err) => console.log(err));
     app.listen(keys.port, () => console.log(`Listening on ${keys.port}...`));
   });
 }, 1000);
